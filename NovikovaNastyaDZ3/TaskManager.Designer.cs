@@ -139,6 +139,7 @@
             Controls.Add(btnDeleteTask);
             Controls.Add(btnAddTask);
             Controls.Add(listBoxTasks);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "TaskManager";
             Text = "TaskManager";
             ResumeLayout(false);

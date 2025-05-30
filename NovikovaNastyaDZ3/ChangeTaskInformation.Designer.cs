@@ -129,6 +129,7 @@
             Controls.Add(checkBoxIsCompleted);
             Controls.Add(lblIsCompleted);
             Controls.Add(lblTitle);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "ChangeTaskInformation";
             Text = "ChangeTaskInformation";
             ResumeLayout(false);
