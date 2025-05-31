@@ -35,6 +35,8 @@
             btnOK = new Button();
             txtDescription = new TextBox();
             label1 = new Label();
+            label2 = new Label();
+            comboBoxImplementers2 = new ComboBox();
             SuspendLayout();
             // 
             // lblTitle
@@ -55,7 +57,7 @@
             lblIsCompleted.AutoSize = true;
             lblIsCompleted.BackColor = SystemColors.ActiveCaption;
             lblIsCompleted.FlatStyle = FlatStyle.Flat;
-            lblIsCompleted.Location = new Point(51, 228);
+            lblIsCompleted.Location = new Point(51, 316);
             lblIsCompleted.MinimumSize = new Size(212, 50);
             lblIsCompleted.Name = "lblIsCompleted";
             lblIsCompleted.Size = new Size(212, 50);
@@ -66,7 +68,7 @@
             // checkBoxIsCompleted
             // 
             checkBoxIsCompleted.AutoSize = true;
-            checkBoxIsCompleted.Location = new Point(318, 229);
+            checkBoxIsCompleted.Location = new Point(318, 317);
             checkBoxIsCompleted.MinimumSize = new Size(50, 50);
             checkBoxIsCompleted.Name = "checkBoxIsCompleted";
             checkBoxIsCompleted.Size = new Size(50, 50);
@@ -86,7 +88,7 @@
             // 
             btnOK.BackColor = Color.CornflowerBlue;
             btnOK.FlatStyle = FlatStyle.Flat;
-            btnOK.Location = new Point(562, 346);
+            btnOK.Location = new Point(605, 370);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(150, 46);
             btnOK.TabIndex = 4;
@@ -116,12 +118,36 @@
             label1.Text = "Описание задачи:";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = SystemColors.ActiveCaption;
+            label2.FlatStyle = FlatStyle.Flat;
+            label2.Location = new Point(51, 235);
+            label2.MinimumSize = new Size(0, 45);
+            label2.Name = "label2";
+            label2.Size = new Size(248, 45);
+            label2.TabIndex = 10;
+            label2.Text = "Исполнитель задачи:";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // comboBoxImplementers2
+            // 
+            comboBoxImplementers2.FormattingEnabled = true;
+            comboBoxImplementers2.Items.AddRange(new object[] { "Федя Петров", "Мария Сидорова", "Катя Иванова" });
+            comboBoxImplementers2.Location = new Point(318, 235);
+            comboBoxImplementers2.Name = "comboBoxImplementers2";
+            comboBoxImplementers2.Size = new Size(278, 40);
+            comboBoxImplementers2.TabIndex = 11;
+            // 
             // ChangeTaskInformation
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.GradientInactiveCaption;
             ClientSize = new Size(800, 450);
+            Controls.Add(comboBoxImplementers2);
+            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(txtDescription);
             Controls.Add(btnOK);
@@ -145,5 +171,7 @@
         public Button btnOK;
         private Label label1;
         public TextBox txtDescription;
+        private Label label2;
+        private ComboBox comboBoxImplementers2;
     }
 }

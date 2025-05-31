@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 namespace NovikovaNastyaDZ3
 {
     public partial class TaskManager : Form
@@ -15,56 +15,74 @@ namespace NovikovaNastyaDZ3
         private void RefreshTaskList()
         {
             listBoxTasks.Items.Clear();
-            var tasks = db.Tasks.ToList();
-
-            foreach (var task in tasks)
+            foreach (var task in db.Tasks.ToList())
             {
                 string status = task.IsCompleted ? "[✓]" : "[ ]";
-                listBoxTasks.Items.Add($"{status} {task.Title} (ID: {task.Id})");
+                listBoxTasks.Items.Add($"{status} {task.Title} (Исполнитель: {task.Implementer}, ID: {task.Id})");
             }
         }
 
+        private readonly List<string> implementers = new() { "Федя Петров", "Мария Сидорова", "Катя Иванова" };
+
+        private void TaskManager_Load(object sender, EventArgs e)
+        {
+            comboBoxImplementers.DataSource = implementers;
+            comboBoxImplementers.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtTitle.Text))
+            if (!ValidateInputs()) return;
+
+            var newTask = new TaskItem
             {
-                var newTask = new TaskItem
-                {
-                    Title = txtTitle.Text,
-                    Description = txtDescription.Text,
-                    IsCompleted = false 
-                };
+                Title = txtTitle.Text,
+                Description = txtDescription.Text,
+                IsCompleted = false,
+                Implementer = comboBoxImplementers.SelectedItem.ToString()
+            };
 
-                db.Tasks.Add(newTask);
-                db.SaveChanges();
+            db.Tasks.Add(newTask);
+            db.SaveChanges();
 
-                txtTitle.Clear();
-                txtDescription.Clear();
-                RefreshTaskList();
-            }          
-            
+            txtTitle.Clear();
+            txtDescription.Clear();
+            RefreshTaskList();
         }
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtTitle.Text))
+            {
+                MessageBox.Show("Название задачи не может быть пустым", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTitle.Focus(); 
+                return false;
+            }
 
+            if (comboBoxImplementers.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите исполнителя задачи", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                comboBoxImplementers.Focus();
+                return false;
+            }
+
+            return true; 
+        }
         private void btnChangeTask_Click(object sender, EventArgs e)
         {
             if (listBoxTasks.SelectedIndex != -1)
             {
                 int selectedId = GetSelectedTaskId();
                 var task = db.Tasks.Find(selectedId);
-
-                if (task != null)
+                var changeForm = new ChangeTaskInformation(task, implementers);
+                if (changeForm.ShowDialog() == DialogResult.OK)
                 {
-                    var changeTaskInformation = new ChangeTaskInformation(task);
-                    if (changeTaskInformation.ShowDialog() == DialogResult.OK)
-                    {
-                        task.Title = changeTaskInformation.Title;
-                        task.Description = changeTaskInformation.Description;
-                        task.IsCompleted = changeTaskInformation.IsCompleted;
+                    task.Title = changeForm.Title;
+                    task.Description = changeForm.Description;
+                    task.IsCompleted = changeForm.IsCompleted;
+                    task.Implementer = changeForm.Implementers;
 
-                        db.SaveChanges();
-                        RefreshTaskList();
-                    }
+                    db.SaveChanges();
+                    RefreshTaskList();
                 }
             }
         }
